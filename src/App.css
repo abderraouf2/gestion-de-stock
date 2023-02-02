@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+.sidebar{
+  width: 3.5vw;
+  height: 100vh;
+  transition: .5s ease-out;
+  text-align: center;
+  z-index: 1;
+  position: absolute;
+  background-color:'#191D32';
+  padding-top: 10px;
+  overflow-x: hidden;
+}
+
+.sidebar:hover{
+  width: 15vw;
+  text-align: left;
+}

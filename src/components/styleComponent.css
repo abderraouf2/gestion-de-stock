@@ -1,0 +1,4 @@
+
+.focusInput:focus{
+    outline: none !important;
+}
