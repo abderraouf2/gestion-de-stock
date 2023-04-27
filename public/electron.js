@@ -1,21 +1,12 @@
 
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
-const sqlite3 = require('sqlite3').verbose();
+require('../src/dbConnection/main');
+const { database } = require('../src/dbConnection/main')
 
-const {
-  FETCH_TEXT,
-  FETCH_IMAGE,
-  FETCH_VIDEO,
-  FETCH_AUDIO,
-  SAVE_TEXT,
-  HANDLE_SAVE,
-  HANDLE_FETCH,
-} = require('./utils/constants')
 
 const isDev = require('electron-is-dev');
-// require('../src/dbConnection/main')
 let win;
 function createWindow() {
   // Create the browser window.
@@ -28,6 +19,9 @@ function createWindow() {
       contextIsolation: false
     },
   });
+
+  
+  
 
   // and load the index.html of the app.
   // win.loadFile("./index.html");
@@ -49,22 +43,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(createWindow);
 
-ipcMain.on(FETCH_TEXT, ()=> {
-  //grab text
-  win.send(HANDLE_FETCH, {
-    success:true,
-    message: 'text returned successfully',
-    text:'fooBar'
-  })
-})
-ipcMain.on(SAVE_TEXT, (event, arg)=> {
-  //save text
-  win.send(HANDLE_SAVE, {
-    success:true,
-    message: 'saved',
-    text:arg,
-  })
-})
+
 
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -72,6 +51,7 @@ ipcMain.on(SAVE_TEXT, (event, arg)=> {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    database.close();
     app.quit();
   }
 });

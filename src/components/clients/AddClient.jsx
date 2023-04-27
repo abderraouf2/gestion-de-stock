@@ -1,22 +1,24 @@
 import React, { useState } from 'react'
 import { Button, Modal, Form,FloatingLabel } from 'react-bootstrap';
 import clients from '../../data/clients';
-import { BsPlusCircleFill } from 'react-icons/bs'
-
+import { BsPlusCircleFill } from 'react-icons/bs';
+import { Addclient } from '../../dbConnection/clientsManagement';
 export default function AddClient(props) {
     const [modalShow, setModalShow] = useState(false)
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState(0);
-    const addClient = (event) => {
+   
+    const addClient = () => {
         props.onChange();
-        clients.push({
-            name,
-            email,
-            phone,
-            address,
-        })
+        if (name && email && phone ) {
+            Addclient(`INSERT INTO clients (name, email, phone, address)
+                         VALUES ("${name}", "${email}", ${phone}, "${address}"  );`)
+        setModalShow(false)
+        } else {
+            alert('enter valid informations')
+        }
     setModalShow(false)
 }
   return (

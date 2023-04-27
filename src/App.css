@@ -52,3 +52,11 @@
   width: 15vw;
   text-align: left;
 }
+
+.links:hover{
+  transition: ease-in-out .2s;
+  background-color: rgb(8, 50, 105);
+}
+.links:focus{
+  border: none;
+}

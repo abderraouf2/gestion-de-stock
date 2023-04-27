@@ -1,105 +1,173 @@
-import React, { useState, useEffect } from 'react'
-import clients from '../data/clients';
-import providers from '../data/providers';
-import products from '../data/products';
-// import { remote } from 'electron'
-// import sendAsync from '../dbConnection/renderer'
+import React, { useState, useEffect } from "react";
+import Clients from "../data/clients";
+import Providers from "../data/providers";
+import Products from "../data/products";
 
+import { getProviders } from "../dbConnection/providersManagement";
+import { getClients } from "../dbConnection/clientsManagement";
+import { getProducts } from "../dbConnection/productsManagement";
+import Card from "../components/Card";
+import cards from "./cards";
+import { Link } from "react-router-dom";
+export default function Dashboard(props) {
+  const [providers, setProviders] = useState(Providers);
+  const [clients, setClients] = useState(Clients);
+  const [products, setProducts] = useState(Products);
 
-export default function Dashboard() {
+  useEffect(() => {
+    getProviders(setProviders);
+    getClients(setClients);
+    getProducts(setProducts);
+  }, []);
 
-    
-//     const fs = remote.require('fs');
-//     const { process } = remote.process;
-// //database related
-//   const [message, setMessage] = useState('hello world');
-//   const [responses, setResponses] = useState([]);
-//   function send(data) {
-//     sendAsync(data).then((result) => setResponses([...responses, result]));
-// }
+  let [clientsCounter, setClientsCounter] = useState(0);
+  let [providersCounter, setProvidersCounter] = useState(0);
+  let [productsCounter, setProductsCounter] = useState(0);
+  let timer1;
+  let timer2;
+  let timer3;
+  useEffect(() => {
+    if (clients.length == 0) {
+      setClientsCounter(0);
+      return;
+    }
+    clearInterval(timer1);
+    timer1 = setInterval(() => {
+      if (clientsCounter === clients.length) {
+        clearInterval(timer1);
+        return;
+      }
+      setClientsCounter((prev) => prev + 1);
+      clientsCounter++;
+    }, 100);
 
-// const [fileData, setFileData] = useState('');
+    return () => clearInterval(timer1);
+  }, [clientsCounter]);
 
-// useEffect(() => {
-//   fs.readFile('example.txt', 'utf8', (err, data) => {
-//     if (err) {
-//       console.error(err);
-//       return;
-//     }
-//     setFileData(data);
-//   });
-// }, []);
+  useEffect(() => {
+    if (providers.length == 0) {
+      setProvidersCounter(0);
+      return;
+    }
 
+    clearInterval(timer2);
+    timer2 = setInterval(() => {
+      if (providersCounter === providers.length) {
+        clearInterval(timer2);
+        return;
+      }
+      setProvidersCounter((prev) => prev + 1);
+      providersCounter++;
+    }, 100);
 
-    let [clientsCounter, setClientsCounter] = useState(0);
-    let [providersCounter, setProvidersCounter] = useState(0);
-    let [productsCounter, setProductsCounter] = useState(0)
-    let timer1;
-    let timer2;
-    let timer3;
-    useEffect(() => {
-        clearInterval(timer1)
-        timer1 = setInterval(() => {
-            if (clientsCounter === clients.length) {
-                clearInterval(timer1)
-                return
-            }
-            setClientsCounter(prev => prev+1)
-            clientsCounter++
-            
-        },100)
-  
-        return () => clearInterval(timer1)
-    }, [clientsCounter])
+    return () => clearInterval(timer2);
+  }, [providersCounter]);
+  useEffect(() => {
+    if (products.length == 0) {
+      setProductsCounter(0);
+      return;
+    }
+    clearInterval(timer3);
+    timer3 = setInterval(() => {
+      if (productsCounter === products.length) {
+        clearInterval(timer3);
+        return;
+      }
+      setProductsCounter((prev) => prev + 1);
+      productsCounter++;
+    }, 100);
 
-    useEffect(() => {
-        clearInterval(timer2)
-        timer2 = setInterval(() => {
-            if (providersCounter === providers.length) {
-                clearInterval(timer2)
-                return
-            }
-            setProvidersCounter(prev => prev+1)
-            providersCounter++
-            
-        },100)
-  
-        return () => clearInterval(timer2)
-    }, [providersCounter])
-    useEffect(() => {
-        clearInterval(timer3)
-        timer3 = setInterval(() => {
-            if (productsCounter === products.length) {
-                clearInterval(timer3)
-                return
-            }
-            setProductsCounter(prev => prev+1)
-            productsCounter++
-            
-        },100)
-  
-        return () => clearInterval(timer3)
-    }, [productsCounter])
+    return () => clearInterval(timer3);
+  }, [productsCounter]);
 
   return (
-    <div style={{ height:'100vh', padding:'8%', display:'flex' }}>
-        <div style={{ width:'70vw', height:'30vh', display:'flex', flexDirection:'row', justifyContent:'space-around' }} > 
-            <div> 
-                <h3>Clients: </h3>
-                <h1> {clientsCounter} </h1>
-            </div>
-            <div> 
-                <h3>Providers: </h3>
-                <h1> {providersCounter} </h1>
-            </div>
-            <div> 
-                <h3>Products: </h3>
-                <h1> {productsCounter} </h1>
-            </div>
+    <div
+      style={{
+        height: "100vh",
+        width: "90vw",
+        paddingTop: "5%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div
+        style={{
+          width: "90vw",
+          height: "15vh",
+          marginBottom: "5vh",
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "#191D32",
+            color: "white",
+            height: "100%",
+            width: "30vw",
+            margin: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Clients: </h3>
+          <h1> {clientsCounter} </h1>
         </div>
-        {/* <button type="button" onClick={() => send(message)}>
-                    Send
-                </button> */}
+        <div
+          style={{
+            backgroundColor: "#191D32",
+            color: "white",
+            height: "100%",
+            width: "30vw",
+            margin: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Providers: </h3>
+          <h1> {providersCounter} </h1>
+        </div>
+        <div
+          style={{
+            backgroundColor: "#191D32",
+            color: "white",
+            height: "100%",
+            width: "30vw",
+            margin: "20px",
+            borderRadius: "10px",
+          }}
+        >
+          <h3>Products: </h3>
+          <h1> {productsCounter} </h1>
+        </div>
+      </div>
+      <div style={{ width: "90vw", display: "flex", flexDirection: "row" }}>
+        <div
+          style={{
+            width: "45vw",
+            height: "70vh",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+          }}
+        >
+          {cards.map((card, index) => (
+            <Card
+              key={index}
+              setEventKey={props.setEventKey}
+              image={card.image}
+              link={card.link}
+              title={card.title}
+            />
+          ))}
+        </div>
+        <div
+          style={{
+            width: "45vw",
+            height: "70vh",
+            border: "2px solid black",
+          }}
+        >
+          <h5>statistics</h5>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

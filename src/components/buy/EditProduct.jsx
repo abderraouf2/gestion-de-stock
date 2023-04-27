@@ -9,12 +9,11 @@ export default function EditProduct(props) {
   const [description, setdescription] = useState(product.description);
   const [price, setprice] = useState(product.price);
   const [quantity, setquantity] = useState(product.quantity);
-  const [TVA, setTVA] = useState(
-    (product.tva * 100) / (product.unitPrice * product.quantity)
-  );
+  const [sellPrice, setSellPrice] = useState(product.sellPrice);
+  const [TVA, setTVA] = useState(product.tax);
   const [reference, setReference] = useState(product.reference);
   const setInformations = (ref) => {
-    if (name && price && reference && quantity) {
+    if (name && price && reference && quantity && sellPrice ) {
       var index = productsToBuy.findIndex(
         (product) => product.reference === ref
       );
@@ -22,9 +21,10 @@ export default function EditProduct(props) {
       productsToBuy[index].name = name;
       productsToBuy[index].description = description;
       productsToBuy[index].unitPrice = price;
+      productsToBuy[index].sellPrice = sellPrice;
       productsToBuy[index].quantity = quantity;
       productsToBuy[index].totalPrice = quantity * price;
-      productsToBuy[index].tva = (quantity * price * TVA) / 100;
+      productsToBuy[index].tax = TVA;
       productsToBuy[index].fullPrice =
         quantity * price + (quantity * price * TVA) / 100;
       props.onChange();
@@ -40,7 +40,6 @@ export default function EditProduct(props) {
         color="black"
         onClick={() => {
           setEdit(true);
-          console.log(product.name);
         }}
         style={{ cursor: "pointer" }}
       />
@@ -56,14 +55,6 @@ export default function EditProduct(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <FloatingLabel controlId="floatingInput" label="Nom" className="mb-3">
-            <Form.Control
-              type="text"
-              defaultValue={product.name}
-              placeholder="name"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </FloatingLabel>
           <FloatingLabel
             controlId="floatingInput"
             label="Reference"
@@ -74,6 +65,14 @@ export default function EditProduct(props) {
               defaultValue={product.reference}
               placeholder="reference"
               onChange={(e) => setReference(e.target.value)}
+            />
+          </FloatingLabel>
+          <FloatingLabel controlId="floatingInput" label="Nom" className="mb-3">
+            <Form.Control
+              type="text"
+              defaultValue={product.name}
+              placeholder="name"
+              onChange={(e) => setName(e.target.value)}
             />
           </FloatingLabel>
           <FloatingLabel
@@ -96,8 +95,20 @@ export default function EditProduct(props) {
             <Form.Control
               type="number"
               defaultValue={product.unitPrice}
-              placeholder="price"
+              placeholder="purchase price"
               onChange={(e) => setprice(e.target.value)}
+            />
+          </FloatingLabel>
+          <FloatingLabel
+            controlId="floatingInput"
+            label="sale price"
+            className="mb-3"
+          >
+            <Form.Control
+              type="number"
+              defaultValue={product.sellPrice}
+              placeholder="sale price"
+              onChange={(e) => setSellPrice(e.target.value)}
             />
           </FloatingLabel>
           <FloatingLabel
