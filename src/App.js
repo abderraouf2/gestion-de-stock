@@ -4,12 +4,15 @@ import { Col, Nav, Row, Tab } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Switch, Route, Link, NavLink } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import ClientsComponent from "./components/clients/ClientsComponent";
-import ProvidersComponent from "./components/provider/ProvidersComponent";
-import ProductsComponent from "./components/products/ProductsComponent";
-import Buying from "./components/buy/Buying";
-import Selling from "./components/sell/Selling";
-import Login from "./components/login/Login";
+import ClientsComponent from "./pages/ClientsComponent";
+import ProvidersComponent from "./pages/ProvidersComponent";
+import ProductsComponent from "./pages/ProductsComponent";
+import Buying from "./pages/Buying";
+import Selling from "./pages/Selling";
+import Login from "./pages/login/Login";
+import NavBar from "./components/NavBar";
+import Users from "./pages/Users"
+import Statistics from "./pages/statistics";
 import "./App.css";
 import {
   AiOutlineShoppingCart,
@@ -20,11 +23,14 @@ import { MdQueryStats } from "react-icons/md";
 import { MdOutlineSell } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import { ImUserTie } from "react-icons/im";
+import { FiUsers } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
+import { checkLogin } from './dbConnection/usersManagement';
 
 function App() {
   const [show, setShow] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState('');
+  const [refresh, setRefresh] = useState(false);
   const links = {
     textDecoration: "none",
     display: "flex",
@@ -38,15 +44,23 @@ function App() {
   const location = useLocation();
   const [eventKey, setEventKey] = useState(location.pathname);
 
+  useEffect(()=> {
+    checkLogin(setLoggedIn)
+  },[])
+  // useEffect(()=> {
+  //   window.location.reload();
+  // }, [refresh])
+
   return loggedIn ? (
     <div className="App" style={{ overflowX: "hidden" }}>
-      <Tab.Container id="left-tabs-example" activeKey={eventKey}>
-        <Row>
+      <NavBar onChange={()=> window.location.reload() } />
+      <Tab.Container id="left-tabs-example" activeKey={eventKey} >
+        <Row style={{ height:'90vh' }}>
           <Col style={{ top: "0", left: "0", zIndex: "3" }}>
             <Nav
               variant="pills"
               className="flex-column sidebar"
-              style={{ backgroundColor: "#191D32" }}
+              style={{ backgroundColor: "#191D32",height:'92vh'  }}
               onMouseOver={() => setShow(true)}
               onMouseLeave={() => setShow(false)}
             >
@@ -125,16 +139,28 @@ function App() {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item className="links">
+                <Nav.Link href="/users">
+                  <Link
+                    to="/users"
+                    onClick={() => setEventKey("/users")}
+                    style={links}
+                  >
+                    <FiUsers
+                      size={25}
+                      style={{ marginRight: "8px" }}
+                    />
+                    {show && <h6> users </h6>}
+                  </Link>
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item className="links">
                 <Nav.Link href="/statistics">
                   <Link
                     to="/statistics"
                     onClick={() => setEventKey("/statistics")}
                     style={links}
                   >
-                    <MdQueryStats
-                      size={25}
-                      style={{ marginRight: "8px" }}
-                    />
+                    <MdQueryStats size={25} style={{ marginRight: "8px" }} />
                     {show && <h6> statistics</h6>}
                   </Link>
                 </Nav.Link>
@@ -174,13 +200,26 @@ function App() {
                     <Buying />
                   </Tab.Pane>
                 </Route>
+                <Route path="/users">
+                  <Tab.Pane eventKey="/users">
+                    <Users />
+                  </Tab.Pane>
+                </Route>
+                <Route path="/statistics">
+                  <Tab.Pane eventKey="/statistics">
+                    <Statistics />
+                  </Tab.Pane>
+                </Route>
+                
               </Tab.Content>
             </Switch>
           </Col>
         </Row>
       </Tab.Container>
     </div>
-  ) : <Login />
+  ) : (
+    <Login onChange={()=> window.location.reload()} />
+  );
 }
 
 export default App;

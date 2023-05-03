@@ -123,6 +123,7 @@ export default function SellingBill(props) {
             <thead>
               <tr>
                 <th style={{ width: "40vw" }}>Product</th>
+                <th style={{ width: "40vw" }}>Category</th>
                 <th style={{ width: "15vw" }}>Unit price</th>
                 <th style={{ width: "15vw" }}>Quantity</th>
                 <th style={{ width: "15vw" }}>Total price</th>
@@ -135,6 +136,7 @@ export default function SellingBill(props) {
                     <td>
                       {product.name} | {product.reference}{" "}
                     </td>
+                    <td>{product.category}</td>
                     <td>{product.price}</td>
                     <td>{product.quantity}</td>
                     <td>{product.totalPrice}</td>

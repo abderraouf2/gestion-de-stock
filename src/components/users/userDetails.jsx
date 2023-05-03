@@ -3,7 +3,7 @@ import { BsPlusSquare } from 'react-icons/bs'
 import { Button, Modal, ListGroup } from 'react-bootstrap';
 
 
-export default function ProviderDetails({provider}) {
+export default function UserDetails({user}) {
     const [modalShow, setModalShow] = useState(false)
   return (
     <div>
@@ -18,17 +18,15 @@ export default function ProviderDetails({provider}) {
             >
             <Modal.Header >
                 <Modal.Title id="contained-modal-title-vcenter">
-                supplier's details
+                User's details
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
             <ListGroup>
-                <ListGroup.Item style={{ height:'8vh' }}>Nom: <br/> { provider.name }</ListGroup.Item>
-                <ListGroup.Item style={{ height:'8vh' }}>Email: <br/> { provider.email } </ListGroup.Item>
-                <ListGroup.Item style={{ height:'8vh' }}>Numero:<br/> { provider.phone } </ListGroup.Item>
-                <ListGroup.Item style={{ height:'8vh' }}>Address:<br/> { provider.address } </ListGroup.Item>
-                <ListGroup.Item style={{ height:'8vh' }}>NIF:<br/> { provider.nif } </ListGroup.Item>
-                <ListGroup.Item style={{ height:'8vh' }}>NIS:<br/> { provider.nis } </ListGroup.Item>
+                <ListGroup.Item style={{ height:'8vh' }}>username: <br/> { user.username }</ListGroup.Item>
+                <ListGroup.Item style={{ height:'8vh' }}>password: <br/> { user.password } </ListGroup.Item>
+                <ListGroup.Item style={{ height:'8vh' }}>Numero:<br/> { user.phone } </ListGroup.Item>
+                <ListGroup.Item style={{ height:'8vh' }}>role:<br/> { user.role } </ListGroup.Item>
                 </ListGroup>
             </Modal.Body>
             <Modal.Footer>

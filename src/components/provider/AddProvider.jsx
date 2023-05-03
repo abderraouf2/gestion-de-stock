@@ -28,7 +28,7 @@ export default function AddProvider(props) {
   return (
     <div>
         <Button onClick={() => setModalShow(true)} style={{cursor:'pointer', width:'11vw', display:'flex', justifyContent:'space-between', alignItems:'center' }}  variant="success">
-        Add new Provider
+        Add new supplier
         <BsPlusCircleFill onClick={() => setModalShow(true)} size={30}  />
         </Button>
         <Modal
@@ -88,7 +88,7 @@ export default function AddProvider(props) {
                 
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={() => addProvider()} variant="success" >Add Provider</Button>
+                <Button onClick={() => addProvider()} variant="success" >Add supplier</Button>
                 <Button onClick={() => setModalShow(false)} variant="danger" >Close</Button>
             </Modal.Footer>
         </Modal>

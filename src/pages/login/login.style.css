@@ -1,0 +1,17 @@
+
+.loginBtn {
+    background-color: #fff;
+    width: 100%;
+    background-color: #1C6EB1;  
+    transition: .5s;
+    height: 5vh;
+    margin-top: 3vh;
+}
+
+.loginBtn:hover {
+    background-color: #191D32;
+}
+
+.input:focus {
+    border: none !important;
+}

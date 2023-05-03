@@ -1,15 +1,39 @@
 const { ipcMain } = require("electron");
 const sqlite3 = require("sqlite3");
+const { session } = require("electron");
+// const electronCookies = require("electron-cookies");
+
+const Store = require('electron-store');
+
+const store = new Store();
+
+
+store.set('login', false);
 
 const database = new sqlite3.Database("./public/stockage.db", (err) => {
   if (err) console.error("Database opening error: ", err);
 });
 
-ipcMain.on("asynchronous-message", (event, arg) => {
-  const sql = arg;
-  database.all(sql, (err, rows) => {
-    event.sender.send("asynchronous-reply", (err && err.message) || rows);
-  });
+// electronCookies.enable({
+//   sessionObject: session.defaultSession
+// })
+
+ipcMain.on("setLogin", (event, arg) => {
+  store.set('login', true);
+
+});
+
+
+ipcMain.on("logout", (event, arg) => {
+  store.set('login', false);
+
+});
+
+ipcMain.on("checkLogin", (event, arg) => {
+  
+  login = store.get('login');
+
+  event.sender.send("login",login);
 });
 
 ipcMain.on("fetchProviders", (event) => {
@@ -126,6 +150,18 @@ ipcMain.on("fetchProducts", (event) => {
   });
 });
 
+ipcMain.on("fetchCategories", (event) => {
+  // Fetch data from the database
+  database.all("SELECT * FROM categories", (err, rows) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Send the data to the renderer process
+    event.sender.send("categories", rows);
+  });
+});
+
 ipcMain.on("addNewProduct", (event, arg) => {
   // Fetch data from the database
   let sql = arg;
@@ -139,6 +175,19 @@ ipcMain.on("addNewProduct", (event, arg) => {
   });
 });
 
+
+ipcMain.on("addNewCategory", (event, arg) => {
+  // Fetch data from the database
+  let sql = arg;
+  database.all(sql, (err, rows) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Send the data to the renderer process
+    event.sender.send("categoryAdded", rows);
+  });
+});
 
 ipcMain.on("updateProductQuantity", (event, arg) => {
   // Fetch data from the database
@@ -272,5 +321,56 @@ ipcMain.on("fetchProductsSold", (event, arg) => {
     }
     // Send the data to the renderer process
     event.sender.send("fetchedProductsSold", rows);
+  });
+});
+
+ipcMain.on("fetchUsers", (event) => {
+  // Fetch data from the database
+  database.all("SELECT * FROM users", (err, rows) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Send the data to the renderer process
+    event.sender.send("Users", rows);
+  });
+});
+
+ipcMain.on("deleteUser", (event, arg) => {
+  // Fetch data from the database
+  let sql = arg;
+  database.all(sql, (err, rows) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Send the data to the renderer process
+    event.sender.send("deletedUser", rows);
+  });
+});
+
+ipcMain.on("AddUser", (event, arg) => {
+  // Fetch data from the database
+  let sql = arg;
+  database.all(sql, (err, rows) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Send the data to the renderer process
+    event.sender.send("AddedUser", rows);
+  });
+});
+
+ipcMain.on("editUser", (event, arg) => {
+  // Fetch data from the database
+  let sql = arg;
+  database.all(sql, (err, rows) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // Send the data to the renderer process
+    event.sender.send("editedUser", rows);
   });
 });

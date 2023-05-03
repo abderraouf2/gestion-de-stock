@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import EditClient from "./EditClient";
+import EditClient from "../components/clients/EditClient";
 import { ImBin } from "react-icons/im";
-import AddClient from "./AddClient";
-import ClientDetails from "./ClientDetails";
+import AddClient from "../components/clients/AddClient";
+import ClientDetails from "../components/clients/ClientDetails";
 import { FloatingLabel, Form } from "react-bootstrap";
-import { DeleteClient, getClients } from "../../dbConnection/clientsManagement";
+import { DeleteClient, getClients } from "../dbConnection/clientsManagement";
 export default function ClientsComponent() {
   const [search, setSearch] = useState("");
   const [clients, setClients] = useState("");

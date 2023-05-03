@@ -83,9 +83,9 @@ export default function Dashboard(props) {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "90vh",
         width: "90vw",
-        paddingTop: "5%",
+        paddingTop: "1%",
         display: "flex",
         flexDirection: "column",
       }}
@@ -94,7 +94,7 @@ export default function Dashboard(props) {
         style={{
           width: "90vw",
           height: "15vh",
-          marginBottom: "5vh",
+          marginBottom: "3vh",
           display: "flex",
           flexDirection: "row",
         }}
@@ -122,7 +122,7 @@ export default function Dashboard(props) {
             borderRadius: "10px",
           }}
         >
-          <h3>Providers: </h3>
+          <h3>suppliers: </h3>
           <h1> {providersCounter} </h1>
         </div>
         <div
@@ -143,7 +143,7 @@ export default function Dashboard(props) {
         <div
           style={{
             width: "45vw",
-            height: "70vh",
+            height: "50vh",
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
           }}

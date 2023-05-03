@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 import { BsPlusCircleFill } from "react-icons/bs";
-
+import AddCategory from "../products/AddCategory";
+import { getCategories, addNewCategory } from "../../dbConnection/productsManagement";
 export default function AddNewProduct(props) {
   const { productsToBuy } = props;
   const [modalShow, setModalShow] = useState(false);
@@ -10,8 +11,10 @@ export default function AddNewProduct(props) {
   const [quantity, setquantity] = useState("");
   const [reference, setReference] = useState("");
   const [price, setprice] = useState(0);
-  const [salePrice, setSalePrice] = useState(0)
+  const [salePrice, setSalePrice] = useState(0);
   const [taxValue, setTaxValue] = useState(0);
+  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState([]);
   const addProduct = () => {
     if (name && reference && price && quantity) {
       const isAvailable = productsToBuy.filter(
@@ -25,12 +28,14 @@ export default function AddNewProduct(props) {
           name,
           description,
           quantity,
+          category,
           unitPrice: price,
           sellPrice: salePrice,
           totalPrice: quantity * price,
           tax: taxValue,
           fullPrice: quantity * price + (quantity * price * taxValue) / 100,
-        })
+        });
+        addNewCategory(category)
         setTaxValue(0);
         props.onChange();
       } else {
@@ -41,6 +46,9 @@ export default function AddNewProduct(props) {
       alert("enter valid informations");
     }
   };
+  useEffect(() => {
+    getCategories(setCategories);
+  }, []);
   return (
     <div>
       <Button
@@ -48,7 +56,7 @@ export default function AddNewProduct(props) {
         style={{
           cursor: "pointer",
           width: "10vw",
-          height: "7vh",
+          height: "6vh",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -143,6 +151,23 @@ export default function AddNewProduct(props) {
           >
             <Form.Control type="number" placeholder="TVA" />
           </FloatingLabel>
+          <Form.Select
+            size="lg"
+            defaultValue={category}
+            onChange={(e) => setCategory(e.target.value)}
+            style={{ marginBottom: "2vh", width: "58%" }}
+            className="inputs"
+          >
+            <option value="" disabled hidden>
+              -- select category --
+            </option>
+            {categories.length > 0 &&
+              categories.map((category) => (
+                <option key={category.id} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
+          </Form.Select>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={addProduct} variant="success">

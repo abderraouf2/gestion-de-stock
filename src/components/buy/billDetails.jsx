@@ -42,7 +42,7 @@ export default function BillDetails(props) {
             }}
           >
             <div>
-              <h6>Provider : {provider} </h6>
+              <h6>supplier : {provider} </h6>
               <h6>bill number : {billNbr} </h6>
             </div>
             <div>

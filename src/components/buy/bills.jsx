@@ -17,7 +17,7 @@ export default function Bills() {
             <thead>
               <tr>
                 <th>billN</th>
-                <th>provider</th>
+                <th>supplier</th>
                 <th>date</th>
                 <th>total</th>
                 <th>status</th>

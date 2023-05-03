@@ -45,7 +45,7 @@ export default function Bill(props) {
 
     productsToBuy.map(async (product) => {
       await addProductsTopurchase(
-        `INSERT INTO productsPurchased (billNbr, name, reference, unitPrice, quantity, totalPrice, tax, fullPrice) VALUES ( "${billNbr}" ,"${product.name}", "${product.reference}" , ${product.unitPrice}, ${product.quantity}, ${product.totalPrice}, ${product.tax} , ${product.fullPrice});`
+        `INSERT INTO productsPurchased (billNbr, name, reference, category. unitPrice, quantity, totalPrice, tax, fullPrice) VALUES ( "${billNbr}" ,"${product.name}", "${product.reference}", "${product.category}" , ${product.unitPrice}, ${product.quantity}, ${product.totalPrice}, ${product.tax} , ${product.fullPrice});`
       );
 
       if (product.exists) {
@@ -104,7 +104,7 @@ export default function Bill(props) {
         </Modal.Header>
         <Modal.Body>
           <div>
-            <h6>Provider : {provider} </h6>
+            <h6>supplier : {provider} </h6>
             <h6>
               Date : {date} / at : {time}{" "}
             </h6>

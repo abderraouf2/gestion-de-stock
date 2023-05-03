@@ -9,16 +9,15 @@ import {
   Toast,
   ToastContainer,
 } from "react-bootstrap";
-import AddNewProduct from "./AddNewProduct";
-import ProductDetails from "../products/ProductDetails";
-import { getProducts } from "../../dbConnection/productsManagement";
-import { getProviders } from "../../dbConnection/providersManagement";
-import EditProduct from "./EditProduct";
+import AddNewProduct from "../components/buy/AddNewProduct";
+import ProductDetails from "../components/products/ProductDetails";
+import { getProducts } from "../dbConnection/productsManagement";
+import { getProviders } from "../dbConnection/providersManagement";
+import EditProduct from "../components/buy/EditProduct";
 import { ImBin } from "react-icons/im";
-import Bill from "./bill";
-import Bills from "./bills";
-import "./buying.style.css";
-
+import Bill from "../components/buy/bill";
+import Bills from "../components/buy/bills";
+import AddCategory from "../components/products/AddCategory";
 export default function Buying() {
   const [providers, setProviders] = useState("");
   const [products, setProducts] = useState("");
@@ -49,6 +48,7 @@ export default function Buying() {
         unitPrice: product.price,
         sellPrice: product.sellPrice,
         quantity: quantity,
+        category: product.category,
         totalPrice: quantity * product.price,
         tax: product.tax,
         fullPrice:
@@ -84,7 +84,6 @@ export default function Buying() {
     updatePrice();
   }, [counter]);
 
-
   useEffect(() => {
     getProviders(setProviders);
     getProducts(setProducts);
@@ -112,7 +111,6 @@ export default function Buying() {
         justifyContent: "center",
         marginTop: "2vh",
         flexDirection: "column",
-        
       }}
     >
       {alert && (
@@ -161,7 +159,7 @@ export default function Buying() {
                 className="inputs"
               >
                 <option value="" disabled hidden>
-                  -- select provider --
+                  -- select supplier --
                 </option>
                 {providers.length > 0 &&
                   providers.map((provider) => (
@@ -240,7 +238,7 @@ export default function Buying() {
             </div>
             <div
               style={{
-                height: "10vh",
+                height: "7vh",
                 width: "45%",
                 display: "flex",
                 flexDirection: "row",
@@ -253,17 +251,18 @@ export default function Buying() {
                 productsToBuy={productsToBuy}
                 onChange={() => setCounter(counter + 1)}
               />
+              <AddCategory />
               <Form.Select
                 size="lg"
                 defaultValue={payed}
                 onChange={(e) => {
-                  e.target.value === 'payed' ? setPayed(true) : setPayed(false)
+                  e.target.value === "payed" ? setPayed(true) : setPayed(false);
                 }}
                 style={{ margin: "2vh 0 2vh 2vh", height: "80%" }}
                 className="inputs"
               >
-                <option value={'payed'}>payed</option>
-                <option value={'unpayed'}>unpayed</option>
+                <option value={"payed"}>payed</option>
+                <option value={"unpayed"}>unpayed</option>
               </Form.Select>
             </div>
             <div
@@ -300,7 +299,7 @@ export default function Buying() {
                       {productsToBuy.map((product) => (
                         <tr key={product.reference}>
                           <td>{product.name}</td>
-                          <td>{product.unitPrice } DZD</td>
+                          <td>{product.unitPrice} DZD</td>
                           <td>{product.quantity}</td>
                           <td>{product.totalPrice} DZD</td>
                           <td>{product.tax} %</td>

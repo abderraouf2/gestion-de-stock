@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Form, Table, FloatingLabel, Button, Tab, Tabs } from "react-bootstrap";
-import Bills from "./bills";
+import Bills from "../components/sell/bills";
 import { ImBin } from "react-icons/im";
-import { getClients } from "../../dbConnection/clientsManagement";
-import { getProducts } from "../../dbConnection/productsManagement";
-import SellingBill from "./SellingBill";
+import { getClients } from "../dbConnection/clientsManagement";
+import { getProducts } from "../dbConnection/productsManagement";
+import SellingBill from "../components/sell/SellingBill";
 export default function Selling() {
   const [clients, setclients] = useState("");
   const [client, setClient] = useState("");
@@ -30,6 +30,7 @@ export default function Selling() {
         productsToSell.push({
           reference: product.reference,
           name: product.name,
+          category: product.category,
           price: product.sellPrice,
           quantity: quantity,
           totalPrice: quantity * product.sellPrice,
@@ -204,6 +205,7 @@ export default function Selling() {
                 <thead>
                   <tr>
                     <th style={{ width: "30vw" }}>Product</th>
+                    <th style={{ width: "20vw" }}>category</th>
                     <th style={{ width: "15vw" }}>Unit price</th>
                     <th style={{ width: "15vw" }}>Quantity</th>
                     <th style={{ width: "15vw" }}>Price</th>
@@ -218,6 +220,7 @@ export default function Selling() {
                           <td>
                             {product.name} | {product.reference}
                           </td>
+                          <td>{product.category}</td>
                           <td>{product.price}</td>
                           <td>{product.quantity}</td>
                           <td>{product.totalPrice} DZD</td>

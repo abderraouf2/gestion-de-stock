@@ -9,11 +9,34 @@ export async function getProducts(setProducts) {
   });
 }
 
+export async function getCategories(setCategories) {
+  ipcRenderer.send("fetchCategories");
+
+  // Listen for a response from the main process
+  ipcRenderer.on("categories", (event, result) => {
+    setCategories(result);
+  });
+}
+
+export async function addNewCategory(category) {
+  ipcRenderer.send(
+    "addNewCategory",
+    `INSERT INTO categories (name) VALUES ('${category}' );`
+  );
+
+  // Listen for a response from the main process
+  ipcRenderer.on("categoryAdded", (event, result) => {
+    // event.preventDefault();
+    console.log(result);
+    return result;
+  });
+}
+
 export async function addNewProduct(product) {
   ipcRenderer.send(
     "addNewProduct",
-    `INSERT INTO products (reference, name, description, price, sellprice, quantity, tax)
-    VALUES ('${product.reference}', '${product.name}', '${product.description}', ${product.unitPrice}, ${product.sellPrice}, ${product.quantity}, ${product.tax} );`
+    `INSERT INTO products (reference, category, name, description, price, sellprice, quantity, tax)
+    VALUES ('${product.reference}', '${product.name}', '${product.category}', '${product.description}', ${product.unitPrice}, ${product.sellPrice}, ${product.quantity}, ${product.tax} );`
   );
 
   // Listen for a response from the main process

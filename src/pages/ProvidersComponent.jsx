@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import Editprovider from "./EditProvider";
+import Editprovider from "../components/provider/EditProvider";
 import { ImBin } from "react-icons/im";
-import AddProvider from "./AddProvider";
-import ProviderDetails from "./ProviderDetails";
+import AddProvider from "../components/provider/AddProvider";
+import ProviderDetails from "../components/provider/ProviderDetails";
 import { FloatingLabel, Form } from "react-bootstrap";
 import {
   getProviders,
   DeleteProvider,
-} from "../../dbConnection/providersManagement";
+} from "../dbConnection/providersManagement";
 export default function ProvidersComponent() {
   const [providers, setProviders] = useState("");
   const [search, setSearch] = useState("");

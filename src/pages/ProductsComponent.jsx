@@ -1,24 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Table, Tabs, Tab, FloatingLabel, Form } from "react-bootstrap";
-import EditProduct from "./EditProduct";
+import EditProduct from "../components/products/EditProduct";
 import { ImBin } from "react-icons/im";
-import Addproduct from "./AddProduct";
-import ProductDetails from "./ProductDetails";
+import Addproduct from "../components/products/AddProduct";
+import ProductDetails from "../components/products/ProductDetails";
 import ReactToPrint from "react-to-print";
-import { getProducts } from "../../dbConnection/productsManagement";
+import { getProducts } from "../dbConnection/productsManagement";
 import { AiOutlinePrinter } from "react-icons/ai";
-import "../styleComponent.css";
-import Stock from "./Stock";
+import Stock from "../components/products/Stock";
 export default function ProductsComponent(props) {
   const [key, setKey] = useState("home");
   const [products, setProducts] = useState("");
   const [search, setSearch] = useState("");
-  const deleteproduct = (id) => {
-    var index = products.findIndex((product) => product.id === id);
-    products.splice(index, 1);
-    setCount(count - 1);
-    props.onChange();
-  };
+
   const componentRef = useRef();
 
   useEffect(() => {
